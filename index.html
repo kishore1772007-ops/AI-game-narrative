@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Game Narrative Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+<h1>AI Game Narrative Generator</h1>
+
+<form method="POST">
+
+<label>Enter Player Action</label>
+
+<input type="text"
+name="action"
+placeholder="Example: Enter Dark Forest"
+required>
+
+<button type="submit">
+Generate Story
+</button>
+
+</form>
+
+{% if story %}
+<div class="story-box">
+
+<h2>Generated Story</h2>
+
+<p>{{ story }}</p>
+
+</div>
+{% endif %}
+
+</div>
+
+</body>
+</html>
