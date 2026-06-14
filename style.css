@@ -1,32 +1,26 @@
-body{
-background:#0d1117;
-color:white;
-font-family:Arial;
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Inter:wght@400;500;600;700&display=swap');
+
+/* Typography classes */
+.title, .font-serif-game {
+  font-family: 'Cinzel', serif;
+  tracking-wide;
 }
 
-.container{
-width:70%;
-margin:auto;
-padding-top:50px;
+body, .font-sans-game {
+  font-family: 'Inter', sans-serif;
 }
 
-input{
-width:100%;
-padding:12px;
-margin-top:10px;
+/* Page routing view display toggles */
+.hidden-view {
+  display: none !important;
 }
 
-button{
-margin-top:15px;
-padding:12px 25px;
-background:#00ff88;
-border:none;
-cursor:pointer;
+/* Background ornament adjustments */
+@keyframes slow-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
-.story-box{
-margin-top:30px;
-background:#1c2128;
-padding:20px;
-border-radius:10px;
+.animate-spin-slow {
+  animation: slow-spin 25s linear infinite;
 }
