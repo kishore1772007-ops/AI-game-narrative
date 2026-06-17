@@ -1,41 +1,170 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>AI Game Narrative Generator</title>
-    <link rel="stylesheet" href="{{ url_for('static',filename='style.css') }}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Game Narrative Generator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="bg-slate-950 text-slate-100 min-h-screen relative overflow-x-hidden">
 
-<div class="container">
+  <div class="fixed inset-0 pointer-events-none overflow-hidden z-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-950/20 via-slate-950 to-slate-950"></div>
+  <div class="fixed top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-purple-900/5 blur-[120px] pointer-events-none"></div>
 
-<h1>AI Game Narrative Generator</h1>
+  <nav class="sticky top-0 z-50 backdrop-blur-lg bg-slate-950/80 border-b border-purple-500/10 px-4 md:px-8">
+    <div class="max-w-7xl mx-auto flex items-center justify-between h-16">
+      <div onclick="showView('home-view')" class="logo flex items-center space-x-2 text-amber-400 hover:text-amber-300 cursor-pointer">
+        <i data-lucide="flame" class="w-5 h-5 text-purple-500 animate-pulse"></i>
+        <span>CHRONICLES AI</span>
+      </div>
+      <div class="flex space-x-1 font-mono text-xs uppercase">
+        <button onclick="showView('home-view')" class="flex items-center gap-1 px-3 py-1.5 rounded-xl text-slate-400 hover:text-slate-200">
+          <i data-lucide="home" class="w-3.5 h-3.5"></i> <span>Home</span>
+        </button>
+        <button onclick="showView('history-view')" class="flex items-center gap-1 px-3 py-1.5 rounded-xl text-slate-400 hover:text-slate-200">
+          <i data-lucide="history" class="w-3.5 h-3.5"></i> <span>Timeline</span>
+        </button>
+        <button onclick="showView('settings-view')" class="flex items-center gap-1 px-3 py-1.5 rounded-xl text-slate-400 hover:text-slate-200">
+          <i data-lucide="sliders" class="w-3.5 h-3.5"></i> <span>API Config</span>
+        </button>
+      </div>
+    </div>
+  </nav>
 
-<form method="POST">
+  <main class="relative z-10 w-full max-w-7xl mx-auto px-4 py-8 md:py-12">
 
-<label>Enter Player Action</label>
+    <div id="home-view" class="view-section flex flex-col items-center justify-center text-center py-12 max-w-5xl mx-auto">
+      <div class="mb-6 inline-flex p-4 rounded-2xl bg-purple-950/30 border border-purple-500/20 shadow-[0_0_50px_rgba(168,85,247,0.15)] animate-spin-slow">
+        <i data-lucide="swords" class="w-10 h-10 text-amber-400"></i>
+      </div>
+      <h1 class="title text-5xl sm:text-7xl font-black mb-6 leading-none">
+        <span class="block text-slate-100">AI GAME NARRATIVE</span>
+        <span class="block bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-amber-300 to-purple-500">GENERATOR</span>
+      </h1>
+      <p class="max-w-2xl text-slate-400 mb-10">Create your own adventure with AI. Forge a hero, choose your path, and watch a living story unfold around every decision you make.</p>
+      <button onclick="showView('creation-view')" class="px-8 py-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold rounded-xl tracking-wider shadow-lg transform hover:-translate-y-0.5 transition-all">
+        Start New Game
+      </button>
+    </div>
 
-<input type="text"
-name="action"
-placeholder="Example: Enter Dark Forest"
-required>
+    <div id="creation-view" class="view-section max-w-4xl mx-auto space-y-6 hidden-view">
+      <div class="text-center">
+        <h2 class="title text-3xl font-bold">Character Synthesis</h2>
+        <p class="text-xs text-purple-400 uppercase tracking-widest mt-1">Bind parameters onto the adventure track canvas</p>
+      </div>
+      <div class="bg-slate-900/30 border border-purple-500/10 p-6 rounded-2xl backdrop-blur-md space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label class="block text-xs text-slate-400 mb-2 uppercase">Hero Identity Name</label>
+            <input type="text" id="hero-name-input" value="Eldrin" class="w-full bg-slate-950 border border-slate-850 focus:border-purple-500 rounded-xl px-4 py-3 text-slate-200 focus:outline-none">
+          </div>
+          <div>
+            <label class="block text-xs text-slate-400 mb-2 uppercase">Lore Core Genre</label>
+            <select id="hero-genre-input" class="w-full bg-slate-950 border border-slate-850 focus:border-purple-500 rounded-xl px-4 py-3 text-slate-200 focus:outline-none">
+              <option value="Fantasy">Gothic Fantasy Realm</option>
+              <option value="Horror">Eldritch Cosmic Horror</option>
+              <option value="Sci-Fi">High Cyberpunk Tech-Sphere</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs text-slate-400 mb-3 uppercase">Select Class Blueprint</label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <button onclick="selectClass('Wizard')" id="class-card-Wizard" class="class-card text-left p-5 rounded-xl border bg-slate-900/40 border-purple-500/40 ring-1 ring-purple-500/30">
+              <div class="p-3 bg-slate-950/60 rounded-lg w-fit text-blue-400 mb-3"><i data-lucide="wand-2"></i></div>
+              <h3 class="title font-bold text-slate-200">Wizard</h3>
+              <p class="text-xs text-slate-400 mt-1">Manipulator of primordial star fires. Weak defense but high spell power.</p>
+            </button>
+            <button onclick="selectClass('Warrior')" id="class-card-Warrior" class="class-card text-left p-5 rounded-xl border bg-slate-900/40 border-slate-800">
+              <div class="p-3 bg-slate-950/60 rounded-lg w-fit text-red-400 mb-3"><i data-lucide="shield"></i></div>
+              <h3 class="title font-bold text-slate-200">Warrior</h3>
+              <p class="text-xs text-slate-400 mt-1">Stalwart champion of defensive strategy. High health and armor ratings.</p>
+            </button>
+          </div>
+        </div>
+        <div class="pt-4 border-t border-slate-950 flex justify-end">
+          <button onclick="initializeAdventure()" class="px-6 py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-xl flex items-center gap-2 shadow-lg">
+            Manifest Character <i data-lucide="compass" class="w-4 h-4 text-amber-400"></i>
+          </button>
+        </div>
+      </div>
+    </div>
 
-<button type="submit">
-Generate Story
-</button>
+    <div id="story-view" class="view-section flex flex-col lg:flex-row gap-8 items-start hidden-view">
+      <aside class="w-full lg:w-80 bg-slate-900/40 border border-purple-500/10 rounded-2xl p-6 backdrop-blur-lg flex flex-col gap-6">
+        <div class="flex items-center space-x-4 border-b border-slate-800 pb-5">
+          <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-purple-600 to-amber-500 flex items-center justify-center"><i data-lucide="user" class="w-6 h-6 text-slate-950"></i></div>
+          <div>
+            <h2 id="hud-name" class="title text-xl font-bold text-slate-100">Eldrin</h2>
+            <p id="hud-class" class="text-xs text-amber-400 font-mono font-bold uppercase mt-0.5">WIZARD</p>
+          </div>
+        </div>
+        <div class="space-y-4">
+          <div>
+            <div class="flex justify-between text-xs font-mono mb-1">
+              <span class="flex items-center gap-1.5 text-slate-400"><i data-lucide="heart" class="w-3.5 h-3.5 text-red-500"></i> Health (HP)</span>
+              <span id="hud-hp-text" class="font-bold text-red-400">100 / 100</span>
+            </div>
+            <div class="w-full bg-slate-950 rounded-full h-2.5 border border-slate-900 p-0.5">
+              <div id="hud-hp-bar" class="bg-gradient-to-r from-red-600 to-rose-400 h-full rounded-full" style="width: 100%"></div>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-3 font-mono text-center">
+            <div class="bg-slate-950/60 border border-slate-900 p-2.5 rounded-xl">
+              <p class="text-[9px] text-slate-500 uppercase">Level</p>
+              <p id="hud-level" class="text-sm font-bold text-slate-200">1</p>
+            </div>
+            <div class="bg-slate-950/60 border border-slate-900 p-2.5 rounded-xl">
+              <p class="text-[9px] text-slate-500 uppercase">Genre</p>
+              <p id="hud-genre" class="text-xs font-bold text-purple-300 truncate">Fantasy</p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h3 class="flex items-center gap-2 text-xs font-mono font-bold uppercase text-slate-400 mb-3"><i data-lucide="package" class="w-4 h-4 text-purple-400"></i> Inventory</h3>
+          <div id="hud-inventory" class="space-y-2 text-xs"></div>
+        </div>
+      </aside>
 
-</form>
+      <div class="flex-1 w-full space-y-6">
+        <div id="api-alert" class="p-4 rounded-xl border border-amber-500/30 bg-amber-950/20 text-amber-400 flex items-center gap-3 text-xs font-mono hidden-view">
+          <i data-lucide="shield-alert" class="w-5 h-5 flex-shrink-0"></i>
+          WARNING: No API Key added. Running on preset backup mode. Enter your key in API Config to unlock full AI responses!
+        </div>
+        <div class="relative bg-gradient-to-b from-slate-900/60 to-slate-950/80 border border-purple-500/15 rounded-2xl p-6 md:p-8 backdrop-blur-lg min-h-[250px]">
+          <p id="story-display-pane" class="font-serif-game text-base md:text-lg leading-relaxed text-slate-200 whitespace-pre-wrap"></p>
+        </div>
+        <div id="story-loader" class="p-12 flex flex-col items-center justify-center bg-slate-900/40 border border-purple-500/10 rounded-2xl hidden-view">
+          <div class="w-12 h-12 rounded-full border-2 border-amber-500/20 border-t-purple-500 animate-spin mb-4"></div>
+          <p class="text-xs font-mono text-purple-400 uppercase font-bold animate-pulse">Gemini is writing the next choice paths...</p>
+        </div>
+        <div id="choice-buttons-grid" class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6"></div>
+      </div>
+    </div>
 
-{% if story %}
-<div class="story-box">
+    <div id="history-view" class="view-section max-w-4xl mx-auto space-y-6 hidden-view">
+      <h2 class="title text-3xl font-bold">Adventure Timeline</h2>
+      <div id="timeline-stream-target" class="relative pl-6 border-l-2 border-purple-900/40 space-y-6"></div>
+    </div>
 
-<h2>Generated Story</h2>
+    <div id="settings-view" class="view-section max-w-2xl mx-auto space-y-6 hidden-view">
+      <h2 class="title text-3xl font-bold flex items-center gap-2"><i data-lucide="sliders" class="text-purple-500"></i> API Settings</h2>
+      <div class="bg-slate-900/30 border border-purple-500/10 rounded-2xl p-6 backdrop-blur-md space-y-6">
+        <div class="space-y-2">
+          <label class="block text-xs font-mono font-bold uppercase text-slate-400">Google Gemini API Key</label>
+          <input type="password" id="api-key-input" placeholder="AIzaSy..." class="w-full bg-slate-950 border border-slate-850 focus:border-purple-500 rounded-xl px-4 py-3 text-slate-200 focus:outline-none font-mono">
+        </div>
+        <button onclick="saveAPIConfiguration()" class="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 font-bold rounded-xl text-xs font-mono uppercase">Save Key Configuration</button>
+        <div class="pt-6 border-t border-slate-900">
+          <button onclick="purgeAdventureCache()" class="px-4 py-2 bg-red-900/20 hover:bg-red-900/40 border border-red-500/30 text-red-200 text-xs font-mono font-bold rounded-xl">Clear Session Storage</button>
+        </div>
+      </div>
+    </div>
 
-<p>{{ story }}</p>
+  </main>
 
-</div>
-{% endif %}
-
-</div>
-
+  <script src="script.js"></script>
 </body>
 </html>
